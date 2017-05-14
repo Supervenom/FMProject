@@ -11,13 +11,18 @@
 
 %%%%% PREDICATES %%%%%%
 
-\newcommand{\binempty}{\mathsf{isBinEmpty}
-\newcommand{\binfull}{\mathsf{isBinFull}
-\newcommand{\cartstill}{\mathsf{isCartStill}
-\newcommand{\cartmoving}{\mathsf{isCartMoving}
-\newcommand{\cartfast}{\mathsf{isCartMovingSlow}
-\newcommand{\cartmedium}{\mathsf{isCartMovingMedium}
-\newcommand{\cartslow}{\mathsf{isCartMovingFast}
+\newcommand{\binempty}{\mathsf{isLocalBinEmpty}}
+\newcommand{\binfull}{\mathsf{isLocalBinFull}}
+\newcommand{\cartstill}{\mathsf{isCartStill}}
+\newcommand{\cartmoving}{\mathsf{isCartMoving}}
+\newcommand{\cartfast}{\mathsf{isCartMovingSlow}}
+\newcommand{\cartmedium}{\mathsf{isCartMovingMedium}}
+\newcommand{\cartslow}{\mathsf{isCartMovingFast}}
+\newcommand{\carttobin}{\mathsf{isCartMovingToBin}}
+\newcommand{\carttopallet}{\mathsf{isCartMovingToPallet}}
+\newcommand{\operatorclose}{\mathsf{isOperatorClose}}
+\newcommand{\operatoraway}{\mathsf{isOperatorAway}}
+\newcommand{\operatortrapped}{\mathsf{isOperatorTrapped}}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -128,6 +133,23 @@ Specification of the working cell
 Specification of the robot
 \end_layout
 
+\begin_layout Enumerate
+It is impossible that the local bin is empty and full at the same time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lnot(\binempty\land\binfull)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Specification of the arm
 \end_layout
@@ -136,6 +158,187 @@ Specification of the arm
 Specification of the cart
 \end_layout
 
+\begin_layout Enumerate
+It is impossible that the cart is moving and is still at the same time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lnot(\cartmoving\land\cartstill)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving or is still.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartmoving\lor\cartstill
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving if and only if it is moving at some speed.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartmoving\leftrightarrow(\cartfast\lor\cartmedium\lor\cartslow)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+It is impossible that the cart is moving at different speeds at the same
+ time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartfast\rightarrow(\lnot\cartmedium\land\lnot\cartslow)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartmedium\rightarrow(\lnot\cartfast\land\lnot\cartslow)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartslow\rightarrow(\lnot\cartmedium\land\lnot\cartfast)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving if and only if is moving to the bin or to the pallet.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartmoving\leftrightarrow(\carttobin\lor\carttopallet)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+It is impossible that the cart is moving to the bin and to the pallet at
+ the same time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lnot(\carttobin\land\carttopallet)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Specification of the operator
+\end_layout
+
+\begin_layout Enumerate
+The operator is trapped only if it is close to the robot.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\operatortrapped\rightarrow\operatorclose
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The operator is close to the robot or away.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\operatorclose\lor\operatoraway
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The operator can't be close to the robot and away at the same time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lnot(\operatorclose\land\operatoraway)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Section
 Specification of the safety properties
 \end_layout

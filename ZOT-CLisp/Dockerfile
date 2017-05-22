@@ -13,5 +13,6 @@ RUN echo "deb [arch=amd64] http://security.ubuntu.com/ubuntu/ xenial-security ma
 
 
 RUN apt update && apt install -y -q vim
+RUN apt install -y -q less
 RUN mkdir /home/zot
 ADD ./Sources /home/zot/Sources

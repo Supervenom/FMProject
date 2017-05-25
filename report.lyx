@@ -8,6 +8,7 @@
 \begin_preamble
 \addtokomafont{disposition}{\rmfamily}
 \usepackage{microtype}
+\usepackage{amsmath}
 
 %%%%% PREDICATES %%%%%%
 
@@ -15,14 +16,29 @@
 \newcommand{\binfull}{\mathsf{isLocalBinFull}}
 \newcommand{\cartstill}{\mathsf{isCartStill}}
 \newcommand{\cartmoving}{\mathsf{isCartMoving}}
-\newcommand{\cartfast}{\mathsf{isCartMovingSlow}}
+\newcommand{\cartfast}{\mathsf{isCartMovingFast}}
 \newcommand{\cartmedium}{\mathsf{isCartMovingMedium}}
-\newcommand{\cartslow}{\mathsf{isCartMovingFast}}
+\newcommand{\cartslow}{\mathsf{isCartMovingSlow}}
 \newcommand{\carttobin}{\mathsf{isCartMovingToBin}}
 \newcommand{\carttopallet}{\mathsf{isCartMovingToPallet}}
 \newcommand{\operatorclose}{\mathsf{isOperatorClose}}
 \newcommand{\operatoraway}{\mathsf{isOperatorAway}}
 \newcommand{\operatortrapped}{\mathsf{isOperatorTrapped}}
+\newcommand{\leftarm}[2]{\mathsf{isLeftArmAt(#1,#2)}}
+\newcommand{\rightarm}[2]{\mathsf{isRightArmAt(#1,#2)}}
+\newcommand{\body}[2]{\mathsf{isBodyAt(#1,#2)}}
+\newcommand{\joint}[2]{\mathsf{isJointAt(#1,#2)}}
+\newcommand{\ee}[2]{\mathsf{isEndEffectorAt(#1,#2)}}
+\newcommand{\cart}[2]{\mathsf{isCartAt(#1,#2)}}
+\newcommand{\dist}[2]{Dist(#1,#2)}
+\newcommand{\jointmoving}{\mathsf{isJointMoving}}
+\newcommand{\onleft}{\mathsf{isOpOnTheLeft}}
+\newcommand{\onright}{\mathsf{isOpOnTheRight}}
+\newcommand{\op}[2]{\mathsf{isOperatorAt(#1,#2)}}
+\newcommand{\resting}[2]{\mathsf{isRobotResting}}
+\newcommand{\eemoving}{\mathsf{isEndEffectorMoving}}
+\newcommand{\movingleft}{\mathsf{isCartMovingeLeft}}
+\newcommand{\movingright}{\mathsf{isCartMovingRight}}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -117,16 +133,16 @@ Gabriele Vanoni
 List of predicates
 \end_layout
 
-\begin_layout Standard
-
-\end_layout
-
 \begin_layout Section
 Specification of the system
 \end_layout
 
 \begin_layout Subsection
 Specification of the working cell
+\end_layout
+
+\begin_layout Enumerate
+The pallet has to be somewhere (a specific cell).
 \end_layout
 
 \begin_layout Subsection
@@ -154,6 +170,304 @@ It is impossible that the local bin is empty and full at the same time.
 Specification of the arm
 \end_layout
 
+\begin_layout Enumerate
+The joint has to be close to the cart.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+joint{x}{y}
+\backslash
+lor
+\backslash
+joint{x+1}{y}
+\backslash
+lor
+\backslash
+joint{x}{y+1}
+\backslash
+lor
+\backslash
+joint{x+1}{y+1}
+\backslash
+lor
+\backslash
+joint{x-1}{y}
+\backslash
+lor
+\backslash
+joint{x}{y-1}
+\backslash
+lor
+\backslash
+joint{x-1}{y-1}
+\backslash
+lor
+\backslash
+joint{x+1}{y-1}
+\backslash
+lor
+\backslash
+joint{x-1}{y+1}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The end effector has to be close to the joint.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+joint{x}{y}
+\backslash
+rightarrow
+\backslash
+ee{x}{y}
+\backslash
+lor
+\backslash
+ee{x+1}{y}
+\backslash
+lor
+\backslash
+ee{x}{y+1}
+\backslash
+lor
+\backslash
+ee{x+1}{y+1}
+\backslash
+lor
+\backslash
+ee{x-1}{y}
+\backslash
+lor
+\backslash
+ee{x}{y-1}
+\backslash
+lor
+\backslash
+ee{x-1}{y-1}
+\backslash
+lor
+\backslash
+ee{x+1}{y-1}
+\backslash
+lor
+\backslash
+ee{x-1}{y+1}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The joint can move close to its position.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+jointmoving
+\backslash
+land
+\backslash
+joint{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+joint{x+1}{y}
+\backslash
+lor
+\backslash
+joint{x}{y+1}
+\backslash
+lor
+\backslash
+joint{x+1}{y+1}
+\backslash
+lor
+\backslash
+joint{x-1}{y}
+\backslash
+lor
+\backslash
+joint{x}{y-1}
+\backslash
+lor
+\backslash
+joint{x-1}{y-1}
+\backslash
+lor
+\backslash
+joint{x+1}{y-1}
+\backslash
+lor
+\backslash
+joint{x-1}{y+1}}{1}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The end effector can move close to its position.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+eemoving
+\backslash
+land
+\backslash
+ee{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+ee{x+1}{y}
+\backslash
+lor
+\backslash
+ee{x}{y+1}
+\backslash
+lor
+\backslash
+ee{x+1}{y+1}
+\backslash
+lor
+\backslash
+ee{x-1}{y}
+\backslash
+lor
+\backslash
+ee{x}{y-1}
+\backslash
+lor
+\backslash
+ee{x-1}{y-1}
+\backslash
+lor
+\backslash
+ee{x+1}{y-1}
+\backslash
+lor
+\backslash
+ee{x-1}{y+1}}{1}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The operator is on the left of the cart if its in the adjecent cell to the
+ left.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+onleft
+\backslash
+longleftrightarrow
+\backslash
+cart{x}{y}
+\backslash
+land
+\backslash
+op{x-2}{y}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The operator is on the right of the cart if its in the adjecent cell to
+ the right.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+onright
+\backslash
+longleftrightarrow
+\backslash
+cart{x}{y}
+\backslash
+land
+\backslash
+op{x+1}{y}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Specification of the cart
 \end_layout
@@ -284,6 +598,361 @@ It is impossible that the cart is moving to the bin and to the pallet at
 \end_layout
 
 \end_deeper
+\begin_layout Enumerate
+The cart has to be in a cell.
+\end_layout
+
+\begin_layout Enumerate
+The cart can't be in more than one cell.
+\end_layout
+
+\begin_layout Enumerate
+Slow speed is one cell per time step.
+ 
+\begin_inset Formula $2\leq x\leq13,1\leq y\le3$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cartslow
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+rightarrow&
+\backslash
+dist{
+\backslash
+cart{x+1}{y}
+\backslash
+lor
+\backslash
+cart{x}{y+1}
+\backslash
+
+\backslash
+ & 
+\backslash
+lor
+\backslash
+cart{x-1}{y}
+\backslash
+lor
+\backslash
+cart{x}{y-1}}{1}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Fast speed is two cells per time step.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+cartfast
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x+2}{y}
+\backslash
+lor
+\backslash
+cart{x}{y+1}
+\backslash
+lor
+\backslash
+cart{x-2}{y}
+\backslash
+lor
+\backslash
+cart{x}{y-1}}{1}$$
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+forse eliminare y
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+When the cart is moving, the robot has to be still
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+cartmoving
+\backslash
+rightarrow
+\backslash
+resting
+\backslash
+land
+\backslash
+dist{resting}{1}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The robot is resting when both the joint and the end effector are in the
+ same cell of the cart.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+resting
+\backslash
+leftrightlongarrow(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+ee{x}{y}
+\backslash
+land
+\backslash
+joint{x}{y})$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart has to move to the bin when the local bin is empty.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+binempty
+\backslash
+land
+\backslash
+lnot
+\backslash
+onleft
+\backslash
+land
+\backslash
+resting
+\backslash
+lnot
+\backslash
+cart{2}{4}
+\backslash
+rightarrow
+\backslash
+movingleft$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving left if is moving on the adjecent left cell at distance
+ one or two.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+movingleft
+\backslash
+longleftrightarrow(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x-1}{y}}{1})
+\backslash
+lor(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x-2}{y}}{1})$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart has to move to the pallet when the local bin is full.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+binfull
+\backslash
+land
+\backslash
+lnot
+\backslash
+onright
+\backslash
+land
+\backslash
+resting
+\backslash
+lnot
+\backslash
+cart{13}{4}
+\backslash
+rightarrow
+\backslash
+movingright$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving right if is moving on the adjecent right cell at distance
+ one or two.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+movingright
+\backslash
+longleftrightarrow(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x+1}{y}}{1})
+\backslash
+lor(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x+2}{y}}{1})$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Subsection
 Specification of the operator
 \end_layout
@@ -339,8 +1008,126 @@ The operator can't be close to the robot and away at the same time.
 \end_layout
 
 \end_deeper
+\begin_layout Enumerate
+The body of the operator has to be somewhere.
+\end_layout
+
+\begin_layout Enumerate
+Arms of the operator have to be close to the body.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+body{x}{y}
+\backslash
+rightarrow
+\backslash
+rightarm{x}{y}
+\backslash
+lor
+\backslash
+rightarm{x+1}{y}
+\backslash
+lor
+\backslash
+rightarm{x}{y+1}
+\backslash
+lor
+\backslash
+rightarm{x+1}{y+1}
+\backslash
+lor
+\backslash
+rightarm{x-1}{y}
+\backslash
+lor
+\backslash
+rightarm{x}{y-1}
+\backslash
+lor
+\backslash
+rightarm{x-1}{y-1}
+\backslash
+lor
+\backslash
+rightarm{x+1}{y-1}
+\backslash
+lor
+\backslash
+rightarm{x-1}{y+1}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+body{x}{y}
+\backslash
+rightarrow
+\backslash
+leftarm{x}{y}
+\backslash
+lor
+\backslash
+leftarm{x+1}{y}
+\backslash
+lor
+\backslash
+leftarm{x}{y+1}
+\backslash
+lor
+\backslash
+leftarm{x+1}{y+1}
+\backslash
+lor
+\backslash
+leftarm{x-1}{y}
+\backslash
+lor
+\backslash
+leftarm{x}{y-1}
+\backslash
+lor
+\backslash
+leftarm{x-1}{y-1}
+\backslash
+lor
+\backslash
+leftarm{x+1}{y-1}
+\backslash
+lor
+\backslash
+leftarm{x-1}{jointy+1}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Section
 Specification of the safety properties
+\end_layout
+
+\begin_layout Itemize
+The cart and the operator cannot be in the same cell of the pallet.
 \end_layout
 
 \end_body

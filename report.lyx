@@ -26,7 +26,6 @@
 \newcommand{\operatortrapped}{\mathsf{isOperatorTrapped}}
 \newcommand{\leftarm}[2]{\mathsf{isLeftArmAt(#1,#2)}}
 \newcommand{\rightarm}[2]{\mathsf{isRightArmAt(#1,#2)}}
-\newcommand{\body}[2]{\mathsf{isBodyAt(#1,#2)}}
 \newcommand{\joint}[2]{\mathsf{isJointAt(#1,#2)}}
 \newcommand{\ee}[2]{\mathsf{isEndEffectorAt(#1,#2)}}
 \newcommand{\cart}[2]{\mathsf{isCartAt(#1,#2)}}
@@ -428,7 +427,19 @@ cart{x}{y}
 \backslash
 land
 \backslash
-op{x-2}{y}$$
+underset{x-3
+\backslash
+leq h
+\backslash
+leq x+2,y-2
+\backslash
+leq k
+\backslash
+leq y+2}{
+\backslash
+bigvee}
+\backslash
+op{h}{k}$$
 \end_layout
 
 \end_inset
@@ -449,7 +460,11 @@ status open
 
 \begin_layout Plain Layout
 
-$$
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
 \backslash
 onright
 \backslash
@@ -459,7 +474,23 @@ cart{x}{y}
 \backslash
 land
 \backslash
-op{x+1}{y}$$
+underset{x-1
+\backslash
+leq h
+\backslash
+leq x+3,y-2
+\backslash
+leq k
+\backslash
+leq y+2}{
+\backslash
+bigvee}
+\backslash
+op{h}{k}
+\backslash
+end{split}
+\backslash
+end{equation*}
 \end_layout
 
 \end_inset
@@ -468,6 +499,10 @@ op{x+1}{y}$$
 \end_layout
 
 \end_deeper
+\begin_layout Enumerate
+The robot has to set in such a way that 
+\end_layout
+
 \begin_layout Subsubsection
 Specification of the cart
 \end_layout
@@ -679,7 +714,11 @@ status open
 
 \begin_layout Plain Layout
 
-$$
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
 \backslash
 cartfast
 \backslash
@@ -687,7 +726,7 @@ land
 \backslash
 cart{x}{y}
 \backslash
-rightarrow
+rightarrow&
 \backslash
 dist{
 \backslash
@@ -697,13 +736,21 @@ lor
 \backslash
 cart{x}{y+1}
 \backslash
+
+\backslash
+&
+\backslash
 lor
 \backslash
 cart{x-2}{y}
 \backslash
 lor
 \backslash
-cart{x}{y-1}}{1}$$
+cart{x}{y-1}}{1}
+\backslash
+end{split}
+\backslash
+end{equation*}
 \end_layout
 
 \end_inset
@@ -839,11 +886,15 @@ status open
 
 \begin_layout Plain Layout
 
-$$
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
 \backslash
 movingleft
 \backslash
-longleftrightarrow(
+longleftrightarrow&(
 \backslash
 cart{x}{y}
 \backslash
@@ -853,6 +904,10 @@ dist{
 \backslash
 cart{x-1}{y}}{1})
 \backslash
+
+\backslash
+&
+\backslash
 lor(
 \backslash
 cart{x}{y}
@@ -861,7 +916,11 @@ rightarrow
 \backslash
 dist{
 \backslash
-cart{x-2}{y}}{1})$$
+cart{x-2}{y}}{1})
+\backslash
+end{split}
+\backslash
+end{equation*}
 \end_layout
 
 \end_inset
@@ -922,11 +981,15 @@ status open
 
 \begin_layout Plain Layout
 
-$$
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
 \backslash
 movingright
 \backslash
-longleftrightarrow(
+longleftrightarrow&(
 \backslash
 cart{x}{y}
 \backslash
@@ -936,6 +999,10 @@ dist{
 \backslash
 cart{x+1}{y}}{1})
 \backslash
+
+\backslash
+&
+\backslash
 lor(
 \backslash
 cart{x}{y}
@@ -944,7 +1011,179 @@ rightarrow
 \backslash
 dist{
 \backslash
-cart{x+2}{y}}{1})$$
+cart{x+2}{y}}{1})
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart has to move slowly near pallet and near bin.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cartmoving
+\backslash
+land(
+\backslash
+cart{2}{4}
+\backslash
+lor
+\backslash
+cart{3}{4}
+\backslash
+lor
+\backslash
+cart{4}{4}
+\backslash
+lor
+\backslash
+cart{11}{4}
+\backslash
+lor
+\backslash
+cart{12}{4}
+\backslash
+lor
+\backslash
+cart{13}{4})
+\backslash
+rightarrow
+\backslash
+cartslow
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart has to move slowly when the operator is close to it.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+movingleft
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+land(
+\backslash
+op{x-4}{y+2}
+\backslash
+lor
+\backslash
+op{x-4}{y+1}
+\backslash
+lor
+\backslash
+op{x-4}{y}
+\backslash
+lor
+\backslash
+op{x-4}{y-1}
+\backslash
+lor
+\backslash
+op{x-4}{y-2})
+\backslash
+rightarrow
+\backslash
+cartslow
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+movingright
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+land(
+\backslash
+op{x+4}{y+2}
+\backslash
+lor
+\backslash
+op{x+4}{y+1}
+\backslash
+lor
+\backslash
+op{x+4}{y}
+\backslash
+lor
+\backslash
+op{x+4}{y-1}
+\backslash
+lor
+\backslash
+op{x+4}{y-2})
+\backslash
+rightarrow
+\backslash
+cartslow
+\backslash
+end{split}
+\backslash
+end{equation*}
 \end_layout
 
 \end_inset
@@ -1023,11 +1262,15 @@ status open
 
 \begin_layout Plain Layout
 
-$$
+
 \backslash
-body{x}{y}
+begin{equation*}
 \backslash
-rightarrow
+begin{split}
+\backslash
+op{x}{y}
+\backslash
+rightarrow&
 \backslash
 rightarm{x}{y}
 \backslash
@@ -1039,6 +1282,10 @@ lor
 \backslash
 rightarm{x}{y+1}
 \backslash
+
+\backslash
+&
+\backslash
 lor
 \backslash
 rightarm{x+1}{y+1}
@@ -1046,6 +1293,10 @@ rightarm{x+1}{y+1}
 lor
 \backslash
 rightarm{x-1}{y}
+\backslash
+
+\backslash
+&
 \backslash
 lor
 \backslash
@@ -1055,13 +1306,21 @@ lor
 \backslash
 rightarm{x-1}{y-1}
 \backslash
+
+\backslash
+&
+\backslash
 lor
 \backslash
 rightarm{x+1}{y-1}
 \backslash
 lor
 \backslash
-rightarm{x-1}{y+1}$$
+rightarm{x-1}{y+1}
+\backslash
+end{split}
+\backslash
+end{equation*}
 \end_layout
 
 \end_inset
@@ -1077,7 +1336,7 @@ status open
 
 $$
 \backslash
-body{x}{y}
+op{x}{y}
 \backslash
 rightarrow
 \backslash

@@ -519,7 +519,7 @@ Controlled by the robot
 \end_layout
 
 \begin_layout Standard
-We now introduce the predicates modeling the robot.
+We now introduce the predicated modeling the robot.
  We modeled both the movement of the cart – which can move at two different
  speeds or be still – and the movement of the joint.
  

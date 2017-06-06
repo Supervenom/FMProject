@@ -38,6 +38,13 @@
 \newcommand{\eemoving}{\mathsf{isEndEffectorMoving}}
 \newcommand{\movingleft}{\mathsf{isCartMovingeLeft}}
 \newcommand{\movingright}{\mathsf{isCartMovingRight}}
+\newcommand{\picking}{\mathsf{isRobotPicking}}
+\newcommand{\waiting}{\mathsf{isRobotWaiting}}
+\newcommand{\working}{\mathsf{isRobotWorking}}
+\newcommand{\grabbing}{\mathsf{isEndEffectorGrabbing}}
+\newcommand{\holding}{\mathsf{isRobotHolding}}
+\newcommand{\closed}{\mathsf{isEndEffectorClosed}}
+\newcommand{\loaded}{\mathsf{isPieceLoaded}}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -874,9 +881,197 @@ end{equation*}
 
 \end_deeper
 \begin_layout Enumerate
-The robot has to set in such a way that 
+Definition of picking.
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+picking
+\backslash
+longleftrightarrow(
+\backslash
+op{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+rightarm{12}{4}
+\backslash
+land
+\backslash
+lnot
+\backslash
+leftarm{12}{4}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+joint{13}{5}
+\backslash
+land
+\backslash
+ee{12}{4}}{1})
+\backslash
+lor(
+\backslash
+op{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+rightarm{12}{4}
+\backslash
+land
+\backslash
+lnot
+\backslash
+leftarm{12}{4}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+joint{13}{3}
+\backslash
+land
+\backslash
+ee{12}{4}}{1})
+\backslash
+lor(
+\backslash
+op{14}{4}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+joint{13}{4}
+\backslash
+land
+\backslash
+ee{12}{4}}{1})
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Definition of holding.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+holding
+\backslash
+longleftrightarrow(
+\backslash
+op{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+rightarm{15}{4}
+\backslash
+land
+\backslash
+lnot
+\backslash
+leftarm{15}{4}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+joint{14}{5}
+\backslash
+land
+\backslash
+ee{15}{4}}{1})
+\backslash
+lor(
+\backslash
+op{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+rightarm{15}{4}
+\backslash
+land
+\backslash
+lnot
+\backslash
+leftarm{15}{4}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+joint{14}{3}
+\backslash
+land
+\backslash
+ee{15}{4}}{1})
+\backslash
+lor(
+\backslash
+op{x}{4}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+joint{14}{4}
+\backslash
+land
+\backslash
+ee{15}{4}}{1})
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Specification of the cart
 \end_layout
@@ -1254,60 +1449,6 @@ Specification of the operator
 \end_layout
 
 \begin_layout Enumerate
-The operator is trapped only if it is close to the robot.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-??
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\operatortrapped\rightarrow\operatorclose
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-The operator is close to the robot or away.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-??
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\operatorclose\longleftrightarrow\lnot\operatoraway
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
 The body of the operator has to be somewhere.
 \end_layout
 
@@ -1462,11 +1603,65 @@ end{equation*}
 
 \end_deeper
 \begin_layout Enumerate
-\begin_inset Note Note
+The operator can move by only one cell per time step.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-movimento operatore
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+op{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+op{x}{y}
+\backslash
+lor
+\backslash
+op{x+1}{y}
+\backslash
+lor
+\backslash
+op{x}{y+1}
+\backslash
+lor
+\backslash
+op{x+1}{y+1}
+\backslash
+lor
+\backslash
+op{x-1}{y}
+\backslash
+lor
+\backslash
+op{x}{y-1}
+\backslash
+lor
+\backslash
+op{x-1}{y-1}
+\backslash
+lor
+\backslash
+op{x+1}{y-1}
+\backslash
+lor
+\backslash
+op{x-1}{y+1}}{1}
+\backslash
+end{split}
+\backslash
+end{equation*}
 \end_layout
 
 \end_inset
@@ -1474,6 +1669,7 @@ movimento operatore
 
 \end_layout
 
+\end_deeper
 \begin_layout Subsection
 Specification of the behaviour
 \end_layout
@@ -1766,6 +1962,295 @@ op{x+4}{y-2})
 rightarrow
 \backslash
 cartslow
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The robot has to set in the right position to grab.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+lnot
+\backslash
+binempty
+\backslash
+land
+\backslash
+closed
+\backslash
+land
+\backslash
+cart{13}{4}
+\backslash
+rightarrow
+\backslash
+picking
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Once the robot has set it waits until it has grabbed the piece.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+ee{12}{4}
+\backslash
+land
+\backslash
+lnot
+\backslash
+rightarm{12}{4}
+\backslash
+land
+\backslash
+lnot
+\backslash
+leftarm{12}{4}
+\backslash
+rightarrow
+\backslash
+grabbing
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+After the end effector has grabbed, it returns in the base position.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+loaded
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+ee{13}{4}
+\backslash
+land
+\backslash
+joint{13}{4}}{1}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+It the robot is in the base position and is holding a piece, it has to set
+ in order to let the operator work on it.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+loaded
+\backslash
+land
+\backslash
+ee{13}{4}
+\backslash
+land
+\backslash
+joint{13}{4}
+\backslash
+lnot
+\backslash
+land{14}{4}
+\backslash
+rightarrow
+\backslash
+holding
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Until the piece is held, the robot must't move.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+loaded
+\backslash
+land
+\backslash
+ee{15}{4}
+\backslash
+land
+\backslash
+joint{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+ee{15}{4}
+\backslash
+land
+\backslash
+joint{x}{y}}{1}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If the piece is unloaded, the robot returns to the base position.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+lnot
+\backslash
+loaded
+\backslash
+land
+\backslash
+ee{15}{4}
+\backslash
+&
+\backslash
+land
+\backslash
+lnot
+\backslash
+op{14}{4}
+\backslash
+rightarrow
+\backslash
+
+\backslash
+
+\backslash
+dist{
+\backslash
+joint{13}{4}
+\backslash
+land
+\backslash
+ee{13}{4}
+\backslash
+&
+\backslash
+land
+\backslash
+closed}{1}
 \backslash
 end{split}
 \backslash

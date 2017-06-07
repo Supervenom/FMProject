@@ -147,7 +147,7 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-The aim of this report is to introduce the a possiblemodel for the Human-Robot
+The aim of this report is to introduce a possible model for the Human-Robot
  Collaborative (HRC) application shown in class, both in terms of modeling
  the world and the constraints needed to ensure the safety of the human
  operator.
@@ -645,6 +645,393 @@ Specification of the system
 Specification of the model
 \end_layout
 
+\begin_layout Subsubsection
+Description of the environment
+\end_layout
+
+\begin_layout Subsubsection
+Specification of the cart
+\end_layout
+
+\begin_layout Enumerate
+It is impossible that the cart is moving and is still at the same time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartmoving\longleftrightarrow\lnot\cartstill
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving if and only if it is moving at some speed.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartmoving\longleftrightarrow(\cartfast\lor\cartslow)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+It is impossible that the cart is moving at different speeds at the same
+ time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lnot(\cartfast\land\cartslow)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving if and only if is moving to the bin or to the pallet.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cartmoving\longleftrightarrow(\carttobin\lor\carttopallet)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+It is impossible that the cart is moving to the bin and to the pallet at
+ the same time.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lnot(\carttobin\land\carttopallet)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart has to be in a cell.
+\end_layout
+
+\begin_layout Enumerate
+The cart can't be in more than one cell.
+\end_layout
+
+\begin_layout Enumerate
+Slow speed is one cell per time step.
+ 
+\begin_inset Formula $2\leq x\leq13,1\leq y\le3$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cartslow
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+rightarrow&
+\backslash
+dist{
+\backslash
+cart{x+1}{y}
+\backslash
+lor
+\backslash
+cart{x}{y+1}
+\backslash
+
+\backslash
+ & 
+\backslash
+lor
+\backslash
+cart{x-1}{y}
+\backslash
+lor
+\backslash
+cart{x}{y-1}}{1}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Fast speed is two cells per time step.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cartfast
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+rightarrow&
+\backslash
+dist{
+\backslash
+cart{x+2}{y}
+\backslash
+lor
+\backslash
+cart{x}{y+1}
+\backslash
+
+\backslash
+&
+\backslash
+lor
+\backslash
+cart{x-2}{y}
+\backslash
+lor
+\backslash
+cart{x}{y-1}}{1}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+forse eliminare y
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The robot is resting if and only if both the joint and the end effector
+ are in the same cell of the cart.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+resting
+\backslash
+longleftrightarrow(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+ee{x}{y}
+\backslash
+land
+\backslash
+joint{x}{y})$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving left if it is moving on the adjecent left cell at distance
+ one or two.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+movingleft
+\backslash
+longleftrightarrow&(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x-1}{y}}{1})
+\backslash
+
+\backslash
+&
+\backslash
+lor(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x-2}{y}}{1})
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The cart is moving right if is moving on the adjecent right cell at distance
+ one or two.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+movingright
+\backslash
+longleftrightarrow&(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x+1}{y}}{1})
+\backslash
+
+\backslash
+&
+\backslash
+lor(
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+dist{
+\backslash
+cart{x+2}{y}}{1})
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Specification of the local bin
+\end_layout
+
 \begin_layout Enumerate
 It is impossible that the local bin is empty and full at the same time.
 \end_layout
@@ -1103,6 +1490,10 @@ longleftrightarrow&(
 \backslash
 op{x}{y}
 \backslash
+land y
+\backslash
+leq 3
+\backslash
 land
 \backslash
 lnot
@@ -1136,6 +1527,10 @@ ee{12}{4}}{1})
 lor(
 \backslash
 op{x}{y}
+\backslash
+land y
+\backslash
+geq 5
 \backslash
 land
 \backslash
@@ -1215,6 +1610,10 @@ longleftrightarrow&(
 \backslash
 op{x}{y}
 \backslash
+land y
+\backslash
+leq 3
+\backslash
 land
 \backslash
 lnot
@@ -1248,6 +1647,10 @@ ee{15}{4}}{1})
 lor(
 \backslash
 op{x}{y}
+\backslash
+land y
+\backslash
+geq 5
 \backslash
 land
 \backslash
@@ -1304,378 +1707,13 @@ end{equation*}
 \end_layout
 
 \end_deeper
-\begin_layout Subsubsection
-Specification of the cart
-\end_layout
-
-\begin_layout Enumerate
-It is impossible that the cart is moving and is still at the same time.
-\end_layout
-
-\begin_deeper
 \begin_layout Standard
-\begin_inset Formula 
-\[
-\cartmoving\longleftrightarrow\lnot\cartstill
-\]
-
+\begin_inset Separator plain
 \end_inset
 
 
 \end_layout
 
-\end_deeper
-\begin_layout Enumerate
-The cart is moving if and only if it is moving at some speed.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\cartmoving\longleftrightarrow(\cartfast\lor\cartslow)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-It is impossible that the cart is moving at different speeds at the same
- time.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\lnot(\cartfast\land\cartslow)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-The cart is moving if and only if is moving to the bin or to the pallet.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\cartmoving\longleftrightarrow(\carttobin\lor\carttopallet)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-It is impossible that the cart is moving to the bin and to the pallet at
- the same time.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\lnot(\carttobin\land\carttopallet)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-The cart has to be in a cell.
-\end_layout
-
-\begin_layout Enumerate
-The cart can't be in more than one cell.
-\end_layout
-
-\begin_layout Enumerate
-Slow speed is one cell per time step.
- 
-\begin_inset Formula $2\leq x\leq13,1\leq y\le3$
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{equation*}
-\backslash
-begin{split}
-\backslash
-cartslow
-\backslash
-land
-\backslash
-cart{x}{y}
-\backslash
-rightarrow&
-\backslash
-dist{
-\backslash
-cart{x+1}{y}
-\backslash
-lor
-\backslash
-cart{x}{y+1}
-\backslash
-
-\backslash
- & 
-\backslash
-lor
-\backslash
-cart{x-1}{y}
-\backslash
-lor
-\backslash
-cart{x}{y-1}}{1}
-\backslash
-end{split}
-\backslash
-end{equation*}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Fast speed is two cells per time step.
- 
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{equation*}
-\backslash
-begin{split}
-\backslash
-cartfast
-\backslash
-land
-\backslash
-cart{x}{y}
-\backslash
-rightarrow&
-\backslash
-dist{
-\backslash
-cart{x+2}{y}
-\backslash
-lor
-\backslash
-cart{x}{y+1}
-\backslash
-
-\backslash
-&
-\backslash
-lor
-\backslash
-cart{x-2}{y}
-\backslash
-lor
-\backslash
-cart{x}{y-1}}{1}
-\backslash
-end{split}
-\backslash
-end{equation*}
-\end_layout
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-forse eliminare y
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-The robot is resting if and only if both the joint and the end effector
- are in the same cell of the cart.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$$
-\backslash
-resting
-\backslash
-longleftrightarrow(
-\backslash
-cart{x}{y}
-\backslash
-rightarrow
-\backslash
-ee{x}{y}
-\backslash
-land
-\backslash
-joint{x}{y})$$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-The cart is moving left if it is moving on the adjecent left cell at distance
- one or two.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{equation*}
-\backslash
-begin{split}
-\backslash
-movingleft
-\backslash
-longleftrightarrow&(
-\backslash
-cart{x}{y}
-\backslash
-rightarrow
-\backslash
-dist{
-\backslash
-cart{x-1}{y}}{1})
-\backslash
-
-\backslash
-&
-\backslash
-lor(
-\backslash
-cart{x}{y}
-\backslash
-rightarrow
-\backslash
-dist{
-\backslash
-cart{x-2}{y}}{1})
-\backslash
-end{split}
-\backslash
-end{equation*}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-The cart is moving right if is moving on the adjecent right cell at distance
- one or two.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{equation*}
-\backslash
-begin{split}
-\backslash
-movingright
-\backslash
-longleftrightarrow&(
-\backslash
-cart{x}{y}
-\backslash
-rightarrow
-\backslash
-dist{
-\backslash
-cart{x+1}{y}}{1})
-\backslash
-
-\backslash
-&
-\backslash
-lor(
-\backslash
-cart{x}{y}
-\backslash
-rightarrow
-\backslash
-dist{
-\backslash
-cart{x+2}{y}}{1})
-\backslash
-end{split}
-\backslash
-end{equation*}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
 \begin_layout Subsubsection
 Specification of the operator
 \end_layout
@@ -1916,6 +1954,10 @@ end{equation*}
 \end_deeper
 \begin_layout Subsection
 Specification of the behaviour
+\end_layout
+
+\begin_layout Subsubsection
+Cart movement
 \end_layout
 
 \begin_layout Enumerate
@@ -2219,6 +2261,131 @@ end{equation*}
 
 \end_deeper
 \begin_layout Enumerate
+The cart has to move fast if the operator is distant.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cartslow
+\backslash
+movingright
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+land x
+\backslash
+geq 5 
+\backslash
+op{h}{k} 
+\backslash
+land op{h}{k} 
+\backslash
+land (h
+\backslash
+geq x+5
+\backslash
+lor h
+\backslash
+leq x-2 
+\backslash
+land (k< y-2 
+\backslash
+lor k>y+2)
+\backslash
+rightarrow
+\backslash
+cartfast
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cartslow
+\backslash
+movingleft
+\backslash
+land
+\backslash
+cart{x}{y}
+\backslash
+land x
+\backslash
+leq 10 
+\backslash
+op{h}{k} 
+\backslash
+land op{h}{k} 
+\backslash
+land (h
+\backslash
+geq x+1
+\backslash
+lor h
+\backslash
+leq x-5 
+\backslash
+land (k< y-2 
+\backslash
+lor k>y+2)
+\backslash
+rightarrow
+\backslash
+cartfast
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Robot Arm working
+\end_layout
+
+\begin_layout Enumerate
 The robot has to set in the right position to grab.
 \end_layout
 
@@ -2511,9 +2678,309 @@ end{equation*}
 Specification of the safety properties
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 The cart and the operator cannot be in the same cell of the pallet.
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+lnot
+\backslash
+cart{15}{4}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The body of the operator cannot be in the same cells of the cart.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cart{x}{y}
+\backslash
+rightarrow
+\backslash
+lnot
+\backslash
+op{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+op{x-1}{y}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Operator left and right arms cannot be in the same cell of the base of the
+ robotic arm.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+cart{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+resting
+\backslash
+rightarrow
+\backslash
+lnot
+\backslash
+leftarm{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+rightarm{x}{y}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+While the end effector is in the same cell of the operator arms, it cannot
+ move or work.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+ee{x}{y}
+\backslash
+land(
+\backslash
+grabbing
+\backslash
+lor
+\backslash
+picking
+\backslash
+lor
+\backslash
+holding)
+\backslash
+
+\backslash
+
+\backslash
+rightarrow
+\backslash
+lnot
+\backslash
+rightarm{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+leftarm{x}{y}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The robotic arm cannot be in the same cell of the operator body.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+op{x}{y}
+\backslash
+rightarrow
+\backslash
+lnot
+\backslash
+joint{x}{y}
+\backslash
+land
+\backslash
+lnot
+\backslash
+ee{x}{y}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The operator cannot be trapped at the bin.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+op{1}{4}
+\backslash
+rightarrow
+\backslash
+lnot
+\backslash
+joint{1}{4}
+\backslash
+lor
+\backslash
+ee{1}{4}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The operator cannot be trapped at the pallet.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation*}
+\backslash
+begin{split}
+\backslash
+op{14}{4}
+\backslash
+rightarrow
+\backslash
+lnot
+\backslash
+joint{14}{4}
+\backslash
+lor
+\backslash
+ee{14}{4}
+\backslash
+end{split}
+\backslash
+end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \end_body
 \end_document

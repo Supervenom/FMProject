@@ -899,7 +899,7 @@ begin{split}
 \backslash
 picking
 \backslash
-longleftrightarrow(
+longleftrightarrow&(
 \backslash
 op{x}{y}
 \backslash
@@ -915,6 +915,10 @@ lnot
 \backslash
 leftarm{12}{4}
 \backslash
+
+\backslash
+&
+\backslash
 rightarrow
 \backslash
 dist{
@@ -924,6 +928,10 @@ joint{13}{5}
 land
 \backslash
 ee{12}{4}}{1})
+\backslash
+
+\backslash
+&
 \backslash
 lor(
 \backslash
@@ -940,6 +948,10 @@ land
 lnot
 \backslash
 leftarm{12}{4}
+\backslash
+
+\backslash
+&
 \backslash
 rightarrow
 \backslash
@@ -954,6 +966,10 @@ ee{12}{4}}{1})
 lor(
 \backslash
 op{14}{4}
+\backslash
+
+\backslash
+&
 \backslash
 rightarrow
 \backslash
@@ -995,7 +1011,7 @@ begin{split}
 \backslash
 holding
 \backslash
-longleftrightarrow(
+longleftrightarrow&(
 \backslash
 op{x}{y}
 \backslash
@@ -1011,6 +1027,10 @@ lnot
 \backslash
 leftarm{15}{4}
 \backslash
+
+\backslash
+&
+\backslash
 rightarrow
 \backslash
 dist{
@@ -1020,6 +1040,10 @@ joint{14}{5}
 land
 \backslash
 ee{15}{4}}{1})
+\backslash
+
+\backslash
+&
 \backslash
 lor(
 \backslash
@@ -1036,6 +1060,10 @@ land
 lnot
 \backslash
 leftarm{15}{4}
+\backslash
+
+\backslash
+&
 \backslash
 rightarrow
 \backslash
@@ -1050,6 +1078,10 @@ ee{15}{4}}{1})
 lor(
 \backslash
 op{x}{4}
+\backslash
+
+\backslash
+&
 \backslash
 rightarrow
 \backslash
@@ -1621,7 +1653,7 @@ begin{split}
 \backslash
 op{x}{y}
 \backslash
-rightarrow
+rightarrow&
 \backslash
 dist{
 \backslash
@@ -1635,6 +1667,10 @@ lor
 \backslash
 op{x}{y+1}
 \backslash
+
+\backslash
+&
+\backslash
 lor
 \backslash
 op{x+1}{y+1}
@@ -1647,6 +1683,10 @@ lor
 \backslash
 op{x}{y-1}
 \backslash
+
+\backslash
+&
+\backslash
 lor
 \backslash
 op{x-1}{y-1}
@@ -1654,6 +1694,10 @@ op{x-1}{y-1}
 lor
 \backslash
 op{x+1}{y-1}
+\backslash
+
+\backslash
+&
 \backslash
 lor
 \backslash
@@ -2152,7 +2196,7 @@ end{equation*}
 
 \end_deeper
 \begin_layout Enumerate
-Until the piece is held, the robot must't move.
+Until the piece is held, the robot mustn't move.
 \end_layout
 
 \begin_deeper

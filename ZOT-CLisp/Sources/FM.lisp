@@ -1,6 +1,25 @@
 (asdf:operate 'asdf:load-op 'ae2sbvzot)
 (use-package :trio-utils)
 
+
+(defconstant MAX_INDEX 91) ; 7*13 aka X_MAX * Y_MAX
+(defconstant X_MAX 13)
+(defconstant Y_MAX 7)
+
+(define-tvar cart_pos *int*)
+(define-tvar oper_body_pos *int*)
+(defvar space_domain (loop for i from 1 to MAX_INDEX collect i))
+(defconstant *positions_list*
+  (alw
+   (&&
+    ([<=] (-V- cart_pos) MAX_INDEX)
+    ([>=] (-V- cart_pos) 1)
+    ([<=] (-V- oper_body_pos) MAX_INDEX)
+    ([>=] (-V- oper_body_pos) 1)
+    )
+   )
+)
+
 (defvar robot-spec
   (alw
    (&&
@@ -23,53 +42,30 @@
    )
   )
 
+
+(defun euclidean-distance (a b) ; SCHEME (define (euclidean-distance a b) (+ (truncate (/ (abs (- a b)) X_MAX)) (remainder (abs (- a b)) X_MAX ) ))
+  (+ (truncate (abs (- a b)) X_MAX) (remainder (abs (- a b)) X_MAX ) )
+  ;  (+ (abs (- (mod a X_MAX) (mod b X_MAX)))  (abs (- (mod a Y_MAX) (mod b Y_MAX) )) )
+  )
+
+
 (defvar cart-slow-speed-definition ; Slow speed is one cell per time step
   (alw
-    (||
+   (<-> (-P- isCartMovingSlow)
+        (-E- pos space_domain (&& ([=] (-V- cart_pos) pos)
+                                  ([=] (euclidean-distance (next (-V- cart_pos)) (-V- cart_pos) ) 1)
 
-          ;(-> (&& (-P- isCartMovingSlow) (-P- isCartAt[x,y]) ) (|| (dist (-P- isCartAt[x+1, y] ) 1) (dist (-P- isCartAt[x, y+1] ) 1) (dist (-P- isCartAt[x-1, y] ) 1)(dist (-P- isCartAt[x, y-1] ) 1)
-          ;  isCartMovingSlow ∧ isCartAt(x, y) →Dist(isCartAt(x + 1, y) ∨ isCartAt(x, y + 1)
 
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_2_1) ) (|| (dist (-P- isCartAt_3_1) 1)(dist (-P- isCartAt_2_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_2_2) ) (|| (dist (-P- isCartAt_3_2) 1)(dist (-P- isCartAt_2_3 ) 1)(dist (-P- isCartAt_2_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_2_3) ) (|| (dist (-P- isCartAt_3_3) 1)(dist (-P- isCartAt_2_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_3_1) ) (|| (dist (-P- isCartAt_4_1) 1)(dist (-P- isCartAt_3_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_3_2) ) (|| (dist (-P- isCartAt_4_2) 1)(dist (-P- isCartAt_3_3 ) 1)(dist (-P- isCartAt_3_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_3_3) ) (|| (dist (-P- isCartAt_4_3) 1)(dist (-P- isCartAt_3_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_4_1) ) (|| (dist (-P- isCartAt_5_1) 1)(dist (-P- isCartAt_4_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_4_2) ) (|| (dist (-P- isCartAt_5_2) 1)(dist (-P- isCartAt_4_3 ) 1)(dist (-P- isCartAt_4_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_4_3) ) (|| (dist (-P- isCartAt_5_3) 1)(dist (-P- isCartAt_4_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_5_1) ) (|| (dist (-P- isCartAt_6_1) 1)(dist (-P- isCartAt_5_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_5_2) ) (|| (dist (-P- isCartAt_6_2) 1)(dist (-P- isCartAt_5_3 ) 1)(dist (-P- isCartAt_5_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_5_3) ) (|| (dist (-P- isCartAt_6_3) 1)(dist (-P- isCartAt_5_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_6_1) ) (|| (dist (-P- isCartAt_7_1) 1)(dist (-P- isCartAt_6_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_6_2) ) (|| (dist (-P- isCartAt_7_2) 1)(dist (-P- isCartAt_6_3 ) 1)(dist (-P- isCartAt_6_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_6_3) ) (|| (dist (-P- isCartAt_7_3) 1)(dist (-P- isCartAt_6_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_7_1) ) (|| (dist (-P- isCartAt_8_1) 1)(dist (-P- isCartAt_7_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_7_2) ) (|| (dist (-P- isCartAt_8_2) 1)(dist (-P- isCartAt_7_3 ) 1)(dist (-P- isCartAt_7_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_7_3) ) (|| (dist (-P- isCartAt_8_3) 1)(dist (-P- isCartAt_7_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_8_1) ) (|| (dist (-P- isCartAt_9_1) 1)(dist (-P- isCartAt_8_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_8_2) ) (|| (dist (-P- isCartAt_9_2) 1)(dist (-P- isCartAt_8_3 ) 1)(dist (-P- isCartAt_8_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_8_3) ) (|| (dist (-P- isCartAt_9_3) 1)(dist (-P- isCartAt_8_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_9_1) ) (|| (dist (-P- isCartAt_10_1) 1)(dist (-P- isCartAt_9_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_9_2) ) (|| (dist (-P- isCartAt_10_2) 1)(dist (-P- isCartAt_9_3 ) 1)(dist (-P- isCartAt_9_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_9_3) ) (|| (dist (-P- isCartAt_10_3) 1)(dist (-P- isCartAt_9_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_10_1) ) (|| (dist (-P- isCartAt_11_1) 1)(dist (-P- isCartAt_10_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_10_2) ) (|| (dist (-P- isCartAt_11_2) 1)(dist (-P- isCartAt_10_3 ) 1)(dist (-P- isCartAt_10_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_10_3) ) (|| (dist (-P- isCartAt_11_3) 1)(dist (-P- isCartAt_10_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_11_1) ) (|| (dist (-P- isCartAt_12_1) 1)(dist (-P- isCartAt_11_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_11_2) ) (|| (dist (-P- isCartAt_12_2) 1)(dist (-P- isCartAt_11_3 ) 1)(dist (-P- isCartAt_11_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_11_3) ) (|| (dist (-P- isCartAt_12_3) 1)(dist (-P- isCartAt_11_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_12_1) ) (|| (dist (-P- isCartAt_13_1) 1)(dist (-P- isCartAt_12_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_12_2) ) (|| (dist (-P- isCartAt_13_2) 1)(dist (-P- isCartAt_12_3 ) 1)(dist (-P- isCartAt_12_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_12_3) ) (|| (dist (-P- isCartAt_13_3) 1)(dist (-P- isCartAt_12_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_13_1) ) (|| (dist (-P- isCartAt_13_2 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_13_2) ) (|| (dist (-P- isCartAt_13_3 ) 1)(dist (-P- isCartAt_13_1 ) 1)))
-    (-> (&& (-P- isCartMovingSlow) (-P- isCartAt_13_3) ) (|| (dist (-P- isCartAt_13_2 ) 1)))
 
-    )
+                                  ;(-> (&& (-P- isCartMovingSlow) (-P- isCartAt[x,y]) ) (|| (dist (-P- isCartAt[x+1, y] ) 1) (dist (-P- isCartAt[x, y+1] ) 1) (dist (-P- isCartAt[x-1, y] ) 1)(dist (-P- isCartAt[x, y-1] ) 1)
+                                  ;  isCartMovingSlow ∧ isCartAt(x, y) →Dist(isCartAt(x + 1, y) ∨ isCartAt(x, y + 1)
+
+
+                                  )
+             )
+        )
+   )
   )
-)
 
 
 
@@ -94,9 +90,9 @@
 
 (ae2sbvzot:zot
  10
- (&& cart-spec robot-spec cart-no-multiple-speeds operator-spec) ; (somf 'off))
+ (&& cart-spec robot-spec cart-no-multiple-speeds operator-spec cart-slow-speed-definition) ; (somf 'off))
  ;:transitions trans
  )
 
 
- ; Esempio su dist misto con cose che sembrano renderlo dipendente da variabile: zot/examples/in1.lisp
+; Esempio su dist misto con cose che sembrano renderlo dipendente da variabile: zot/examples/in1.lisp

@@ -114,13 +114,8 @@
 
 \begin_body
 
-\begin_layout Subject
-Project of Formal Methods for Concurrent and Real-time Systems course (PoliMi/UI
-C 545)
-\end_layout
-
 \begin_layout Title
-Model and Report
+Titolo esplicativo
 \end_layout
 
 \begin_layout Author
@@ -143,265 +138,11 @@ Gabriele Vanoni
 \end_layout
 
 \begin_layout Section
-Introduction
-\end_layout
-
-\begin_layout Standard
-The aim of this report is to introduce the a possiblemodel for the Human-Robot
- Collaborative (HRC) application shown in class, both in terms of modeling
- the world and the constraints needed to ensure the safety of the human
- operator.
- We will first describe the environment that the robot and the human will
- work in, along with the assumptions made to simplify the model while keeping
- it detailed enough to give a meaningful representation of reality.
-\end_layout
-
-\begin_layout Subsection
-The environment
-\end_layout
-
-\begin_layout Standard
-The environment is assumed to be a room, as shown in the image.
- We decided to position the pallet, where the operator and the robot will
- work together, on the right side of the room.
- On the left we put the bin, where the robot will go alone to refill his
- own 
-\begin_inset Quotes eld
-\end_inset
-
-local
-\begin_inset Quotes erd
-\end_inset
-
- bin.
- The room is divided in squares, according to the natural X and Y axis,
- allowing us to simply identify the cells via their coordinates.
- We decided that the path between the bin and the pallet could be a straight
- line without introducing an oversimplification of the model.
- This is motivated by the fact that the room does not contain any obstacle
- and is big enough to for the walls not to interfere with standard robot
- movement.
- Therefore – should the path not be a straight line in the first place –
- a trivial change of basis would make the line straight.
- The new basis would only be a rotation of the starting one
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Quest'ultima frase probabilmente evitabile
-\end_layout
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Subsection
-The robot
-\end_layout
-
-\begin_layout Standard
-We modeled the robot as a two-square object, which represents the whole
- cart.
- The robotic arm is modeled in more detail and we track the position of
- the elbow, the arm and the hand of the robot.
- The cart can move left- and rightward only, since the bin to pallet path
- is straight and the are no fixed obstacles.
- Should the operator be in the way the robot will simply stop moving, as
- we shall see.
- The arm is modeled to be retracted (on the same square of the cart) during
- movement, while its position during activity is modeled accordingly.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Scrivere meglio!!! Non ricordo esattamente i nomi dei pezzi.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-We assumed that the robot has sensors to detect his own position in the
- room as well as the operator's.
- More specifically, the robot can detect the position of the human operator
- in terms of distance and direction.
- This is simply represented by knowing the position of the operator on the
- grid modeling the room.
- The robot has also sensors that detect proximity of the human to the robotic
- arm to ensure the safety conditions.
- Furthermore, the robot has knowledge of the layout of the room (no physical
- obstacle is present, the position of the bin and the pallet).
- 
-\end_layout
-
-\begin_layout Subsection
-The human operator
-\end_layout
-
-\begin_layout Standard
-The behaviour of the human operator is assumed not to be constrained by
- any 
-\begin_inset Quotes eld
-\end_inset
-
-common sense
-\begin_inset Quotes erd
-\end_inset
-
- as he might try to hurt himself.
- This is to ensure that no harm can be done to a human operator even in
- the event of a human error.
- The position of the human is modeled as the position of his body and of
- the arms, all of which occupy a single square of the room.
- The arms can be stretched out or resting, in which case they occupy the
- same position of the body.
- 
-\end_layout
-
-\begin_layout Section
 List of predicates
-\end_layout
-
-\begin_layout Standard
-We now introduce the predicates needed to properly model the room, the robot,
- the human and all the events related to the work done by the robot.
- We split the predicates based on how the robot can know their state: from
- sensors or directly, since it can control them.
 \end_layout
 
 \begin_layout Subsection
 Whose state is known by the robot by mean of sensors
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Penso sia meglio mettere un titolo breve siccome poi si spiega ma non ho
- idee
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-We shall first introduce the predicates whose state is known by some sensor.
- This includes the position of the operator as well as the state of the
- bins (both the 
-\begin_inset Quotes eld
-\end_inset
-
-local
-\begin_inset Quotes erd
-\end_inset
-
- and the 
-\begin_inset Quotes eld
-\end_inset
-
-remote
-\begin_inset Quotes erd
-\end_inset
-
- ones).
- 
-\end_layout
-
-\begin_layout Standard
-Predicates referring to the operator:
-\end_layout
-
-\begin_layout Itemize
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
-leftarm{x}{y}$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
-rightarm{x}{y}$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
-onleft$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
-onright$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
-op{x}{y}$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Predicates referring to the robot or the bins:
 \end_layout
 
 \begin_layout Itemize
@@ -429,6 +170,38 @@ status open
 $
 \backslash
 binfull$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+leftarm{x}{y}$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarm{x}{y}$
 \end_layout
 
 \end_inset
@@ -492,6 +265,54 @@ status open
 
 $
 \backslash
+onleft$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+onright$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+op{x}{y}$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
 resting$
 \end_layout
 
@@ -500,29 +321,8 @@ resting$
 
 \end_layout
 
-\begin_layout Standard
-In all above predicates, as well as those that we will introduce later,
- we indicate with 
-\shape italic
-x 
-\shape default
-and 
-\shape italic
-y
-\shape default
- the coordinate of the square describing the room as already explained.
- 
-\end_layout
-
 \begin_layout Subsection
-Controlled by the robot
-\end_layout
-
-\begin_layout Standard
-We now introduce the predicates modeling the robot.
- We modeled both the movement of the cart – which can move at two different
- speeds or be still – and the movement of the joint.
- 
+Whose state is controlled by the robot
 \end_layout
 
 \begin_layout Itemize
@@ -1099,7 +899,7 @@ begin{split}
 \backslash
 picking
 \backslash
-longleftrightarrow&(
+longleftrightarrow(
 \backslash
 op{x}{y}
 \backslash
@@ -1115,10 +915,6 @@ lnot
 \backslash
 leftarm{12}{4}
 \backslash
-
-\backslash
-&
-\backslash
 rightarrow
 \backslash
 dist{
@@ -1128,10 +924,6 @@ joint{13}{5}
 land
 \backslash
 ee{12}{4}}{1})
-\backslash
-
-\backslash
-&
 \backslash
 lor(
 \backslash
@@ -1148,10 +940,6 @@ land
 lnot
 \backslash
 leftarm{12}{4}
-\backslash
-
-\backslash
-&
 \backslash
 rightarrow
 \backslash
@@ -1166,10 +954,6 @@ ee{12}{4}}{1})
 lor(
 \backslash
 op{14}{4}
-\backslash
-
-\backslash
-&
 \backslash
 rightarrow
 \backslash
@@ -1211,7 +995,7 @@ begin{split}
 \backslash
 holding
 \backslash
-longleftrightarrow&(
+longleftrightarrow(
 \backslash
 op{x}{y}
 \backslash
@@ -1227,10 +1011,6 @@ lnot
 \backslash
 leftarm{15}{4}
 \backslash
-
-\backslash
-&
-\backslash
 rightarrow
 \backslash
 dist{
@@ -1240,10 +1020,6 @@ joint{14}{5}
 land
 \backslash
 ee{15}{4}}{1})
-\backslash
-
-\backslash
-&
 \backslash
 lor(
 \backslash
@@ -1260,10 +1036,6 @@ land
 lnot
 \backslash
 leftarm{15}{4}
-\backslash
-
-\backslash
-&
 \backslash
 rightarrow
 \backslash
@@ -1278,10 +1050,6 @@ ee{15}{4}}{1})
 lor(
 \backslash
 op{x}{4}
-\backslash
-
-\backslash
-&
 \backslash
 rightarrow
 \backslash
@@ -1853,7 +1621,7 @@ begin{split}
 \backslash
 op{x}{y}
 \backslash
-rightarrow&
+rightarrow
 \backslash
 dist{
 \backslash
@@ -1867,10 +1635,6 @@ lor
 \backslash
 op{x}{y+1}
 \backslash
-
-\backslash
-&
-\backslash
 lor
 \backslash
 op{x+1}{y+1}
@@ -1883,10 +1647,6 @@ lor
 \backslash
 op{x}{y-1}
 \backslash
-
-\backslash
-&
-\backslash
 lor
 \backslash
 op{x-1}{y-1}
@@ -1894,10 +1654,6 @@ op{x-1}{y-1}
 lor
 \backslash
 op{x+1}{y-1}
-\backslash
-
-\backslash
-&
 \backslash
 lor
 \backslash
@@ -2396,7 +2152,7 @@ end{equation*}
 
 \end_deeper
 \begin_layout Enumerate
-Until the piece is held, the robot mustn't move.
+Until the piece is held, the robot must't move.
 \end_layout
 
 \begin_deeper

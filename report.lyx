@@ -156,6 +156,18 @@ The aim of this report is to introduce a possible model for the Human-Robot
  it detailed enough to give a meaningful representation of reality.
 \end_layout
 
+\begin_layout Standard
+We then explain the usual actions and related hazards of the robot's operations
+ and their possible interactions with the human operator.
+ 
+\end_layout
+
+\begin_layout Standard
+In the later sections we introduce the predicates and the formulae needed
+ for the model introduced.
+ 
+\end_layout
+
 \begin_layout Subsection
 The environment
 \end_layout
@@ -205,10 +217,10 @@ The robot
 We modeled the robot as a two-square object, which represents the whole
  cart.
  The robotic arm is modeled in more detail and we track the position of
- the elbow, the arm and the hand of the robot.
+ the elbow, the arm and the end effector.
  The cart can move left- and rightward only, since the bin to pallet path
  is straight and the are no fixed obstacles.
- Should the operator be in the way the robot will simply stop moving, as
+ Should the operator be in the way, the robot will simply stop moving, as
  we shall see.
  The arm is modeled to be retracted (on the same square of the cart) during
  movement, while its position during activity is modeled accordingly.
@@ -264,6 +276,54 @@ common sense
  the arms, all of which occupy a single square of the room.
  The arms can be stretched out or resting, in which case they occupy the
  same position of the body.
+ 
+\end_layout
+
+\begin_layout Subsection
+Standard robot activities
+\end_layout
+
+\begin_layout Standard
+Expected interactions between the robot and the other parts of the world
+ (the bin and the operator, as we assumed that walls are far enough for
+ not being an issue) have been modeled with formulae describing both the
+ interaction itself and the safety properties, as detailed in further sections.
+ The robot is supposed to move in a straight line, back and forth between
+ the pallet and the bin.
+ The speed is constrained to be 
+\begin_inset Quotes eld
+\end_inset
+
+slow
+\begin_inset Quotes erd
+\end_inset
+
+ near the pallet to minimize the risk of accidental contact with the operator.
+ The movement is modeled as a straight line, as previously mentioned, since
+ this does not introduce any oversimplification.
+ The regular behaviour is described as the robot moving between the pallet
+ and the bin, while in case of an hazard (the operator being in the way),
+ the robot will stop moving until the hazard is resolved (the operator is
+ far enough to avoid any contact).
+ 
+\end_layout
+
+\begin_layout Standard
+When the robot is still, the robotic arm can stretch out to do the required
+ actions (either refill the local bin when at the remote bin, or work with
+ the operator when being at the pallet).
+ The movement of the arm during the refill, as well as the possible positions
+ at which the operator works on a part are fixed.
+ The normal functioning of the arm, when refilling, is to pick up the parts
+ and fill the local bin.
+ When the robot is at the pallet, the robotic arm must pick up the part,
+ reach the appropriate final position – which in turn depends on the operator's
+ current position – and wait for the operator to complete his operations.
+ During any of these operations, it is possible that the operator interferes
+ with the robotic arm's movement in any way (for example, his arm may be
+ in the way of the robotic arm and would therefore be hit).
+ In this case, considered hazardous, the robotic arm's movement is stopped
+ until the safety conditions are fulfilled again.
  
 \end_layout
 

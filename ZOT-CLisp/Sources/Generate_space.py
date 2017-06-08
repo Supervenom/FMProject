@@ -61,6 +61,6 @@ if __name__ == '__main__':
     callables = list(filter(callable, locals().values()))
     for fun in callables:
         if not fun.__name__.startswith('__'):
-            with open(fun.__name__, 'w') as f:
+            with open(str(fun.__name__)+'.lisp', 'w') as f:
                 for x in fun():
                     f.write(x)

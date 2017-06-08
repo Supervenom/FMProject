@@ -7,7 +7,7 @@
 (defconstant Y_MAX 7)
 
 (define-tvar cart_pos *int*)
-(define-tvar oper_body_pos *int*)
+; (define-tvar oper_body_pos *int*)
 (defvar space_domain (loop for i from 1 to MAX_INDEX collect i))
 (defconstant *positions_list*
   (alw
@@ -44,9 +44,13 @@
 
 
 (defun euclidean-distance (a b) ; SCHEME (define (euclidean-distance a b) (+ (truncate (/ (abs (- a b)) X_MAX)) (remainder (abs (- a b)) X_MAX ) ))
-  (+ (truncate (abs (- a b)) X_MAX) (remainder (abs (- a b)) X_MAX ) )
-  ;  (+ (abs (- (mod a X_MAX) (mod b X_MAX)))  (abs (- (mod a Y_MAX) (mod b Y_MAX) )) )
-  )
+  (if ([>] a b)
+
+    ([+] ([/] ([-] a b) X_MAX) ([%] ([-] a b) X_MAX ) ([/] ([-] a b) Y_MAX) ([%] ([-] a b) Y_MAX ) )
+
+    ([+] ([/] ([-] b a) X_MAX) ([%] ([-] b a) X_MAX ) ([/] ([-] b a) Y_MAX) ([%] ([-] b a) Y_MAX ) )
+    ;  (+ (abs (- (mod a X_MAX) (mod b X_MAX)))  (abs (- (mod a Y_MAX) (mod b Y_MAX) )) )
+    ))
 
 
 (defvar cart-slow-speed-definition ; Slow speed is one cell per time step

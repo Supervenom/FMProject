@@ -10347,5 +10347,23 @@ end{equation*}
 \end_layout
 
 \end_deeper
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+Our whole model, especially the safety properties, aims at defining the
+ robot's behaviour and conditions to operate in such way that it is not
+ possibile by any means for it to do harm to the human operator.
+ Our choices in creating the model as well as introducing any simplification
+ were mostly driven by this purpose.
+ The core approach was to prevent the robot from moving every time the human
+ was close enough to be potentially harmed.
+ This choice may in some cases (mostly if the operator performs a non-standard
+ movement) restrict the operative effectiveness of the robot but ensures
+ that he cannot be harmed.
+ 
+\end_layout
+
 \end_body
 \end_document

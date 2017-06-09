@@ -192,7 +192,7 @@ The environment
 \end_layout
 
 \begin_layout Standard
-The environment is assumed to be a room, as shown in the section 
+The environment is assumed to be a room, as shown in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Environment-layout"
@@ -202,8 +202,7 @@ reference "subsec:Environment-layout"
 .
  We decided to position the pallet, where the operator and the robot will
  work together, on the right side of the room.
- On the left we put the bin, where the robot will go alone to refill his
- own 
+ On the left we put the bin, where the robot will go to refill his own 
 \begin_inset Quotes eld
 \end_inset
 
@@ -220,18 +219,8 @@ local
  and is big enough to for the walls not to interfere with standard robot
  movement.
  Therefore – should the path not be a straight line in the first place –
- a trivial change of basis would make the line straight.
- The new basis would only be a rotation of the starting one
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Quest'ultima frase probabilmente evitabile
-\end_layout
-
-\end_inset
-
-.
+ a trivial rotation of the two axis (a change of basis) would make the line
+ straight.
  
 \end_layout
 
@@ -243,7 +232,7 @@ The robot
 We modeled the robot as a two-square object, which represents the whole
  cart.
  The robotic arm is modeled in more detail and we track the position of
- the elbow, the arm and the end effector.
+ the joint, the robotic arm and the end effector.
  The cart can move left- and rightward only, since the bin to pallet path
  is straight and the are no fixed obstacles.
  Should the operator be in the way, the robot will simply stop moving, as
@@ -251,20 +240,6 @@ We modeled the robot as a two-square object, which represents the whole
  The arm is modeled to be retracted (on the same square of the cart) during
  movement, while its position during activity is modeled accordingly.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Scrivere meglio!!! Non ricordo esattamente i nomi dei pezzi.
- 
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -286,8 +261,8 @@ The human operator
 \end_layout
 
 \begin_layout Standard
-The behaviour of the human operator is assumed not to be constrained by
- any 
+The behavior of the human operator is assumed not to be constrained by any
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -327,7 +302,7 @@ slow
  near the pallet to minimize the risk of accidental contact with the operator.
  The movement is modeled as a straight line, as previously mentioned, since
  this does not introduce any oversimplification.
- The regular behaviour is described as the robot moving between the pallet
+ The regular behavior is described as the robot moving between the pallet
  and the bin, while in case of an hazard (the operator being in the way),
  the robot will stop moving until the hazard is resolved (the operator is
  far enough to avoid any contact).
@@ -369,17 +344,6 @@ We now introduce the predicates needed to properly model the room, the robot,
 
 \begin_layout Subsection
 Whose state is known by the robot by mean of sensors
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Penso sia meglio mettere un titolo breve siccome poi si spiega ma non ho
- idee
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -839,7 +803,7 @@ Specification of the model
 \end_layout
 
 \begin_layout Standard
-All formulae have to be indended universally quantified over 
+All formulae have to be intended universally quantified over 
 \begin_inset Formula $x$
 \end_inset
 
@@ -8709,7 +8673,8 @@ cellcolor{yellow!50}
 
 \end_deeper
 \begin_layout Enumerate
-While the pice is loaded the end effector cannot close or grab another piece.
+While the piece is loaded the end effector cannot close or grab another
+ piece.
 \end_layout
 
 \begin_deeper
@@ -9164,7 +9129,7 @@ end{equation*}
 
 \end_deeper
 \begin_layout Subsection
-Specification of the behaviour
+Specification of the behavior
 \end_layout
 
 \begin_layout Subsubsection
@@ -10353,8 +10318,8 @@ Conclusion
 
 \begin_layout Standard
 Our whole model, especially the safety properties, aims at defining the
- robot's behaviour and conditions to operate in such way that it is not
- possibile by any means for it to do harm to the human operator.
+ robot's behavior and conditions to operate in such way that it is not possible
+ by any means for it to do harm to the human operator.
  Our choices in creating the model as well as introducing any simplification
  were mostly driven by this purpose.
  The core approach was to prevent the robot from moving every time the human

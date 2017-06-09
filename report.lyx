@@ -19,13 +19,7 @@
 \newcommand{\cartstill}{\mathsf{isCartStill}}
 \newcommand{\cartmoving}{\mathsf{isCartMoving}}
 \newcommand{\cartfast}{\mathsf{isCartMovingFast}}
-\newcommand{\cartmedium}{\mathsf{isCartMovingMedium}}
 \newcommand{\cartslow}{\mathsf{isCartMovingSlow}}
-\newcommand{\carttobin}{\mathsf{isCartMovingToBin}}
-\newcommand{\carttopallet}{\mathsf{isCartMovingToPallet}}
-\newcommand{\operatorclose}{\mathsf{isOperatorClose}}
-\newcommand{\operatoraway}{\mathsf{isOperatorAway}}
-\newcommand{\operatortrapped}{\mathsf{isOperatorTrapped}}
 \newcommand{\leftarm}[2]{\mathsf{isLeftArmAt(\mathit{#1,#2})}}
 \newcommand{\rightarm}[2]{\mathsf{isRightArmAt(\mathit{#1,#2})}}
 \newcommand{\joint}[2]{\mathsf{isJointAt(\mathit{#1,#2})}}
@@ -38,11 +32,9 @@
 \newcommand{\op}[2]{\mathsf{isOperatorAt(\mathit{#1,#2})}}
 \newcommand{\resting}{\mathsf{isRobotResting}}
 \newcommand{\eemoving}{\mathsf{isEndEffectorMoving}}
-\newcommand{\movingleft}{\mathsf{isCartMovingeLeft}}
+\newcommand{\movingleft}{\mathsf{isCartMovingLeft}}
 \newcommand{\movingright}{\mathsf{isCartMovingRight}}
 \newcommand{\picking}{\mathsf{isRobotPicking}}
-\newcommand{\waiting}{\mathsf{isRobotWaiting}}
-\newcommand{\working}{\mathsf{isRobotWorking}}
 \newcommand{\grabbing}{\mathsf{isEndEffectorGrabbing}}
 \newcommand{\holding}{\mathsf{isRobotHolding}}
 \newcommand{\closed}{\mathsf{isEndEffectorClosed}}
@@ -3058,14 +3050,15 @@ It is impossible that the cart is moving at different speeds at the same
 
 \end_deeper
 \begin_layout Enumerate
-The cart is moving if and only if is moving to the bin or to the pallet.
+The cart is moving if and only if is moving to the bin (left) or to the
+ pallet (right).
 \end_layout
 
 \begin_deeper
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\cartmoving\longleftrightarrow(\carttobin\lor\carttopallet)
+\cartmoving\longleftrightarrow(\movingleft\lor\movingright)
 \]
 
 \end_inset
@@ -3213,7 +3206,11 @@ end{equation*}
 \end_deeper
 \begin_layout Enumerate
 Fast speed is two cells per time step.
- 
+ We decided that the cart should not be allowed to move fast along the 
+\shape italic
+Y
+\shape default
+ axis.
 \end_layout
 
 \begin_deeper
@@ -3795,8 +3792,8 @@ end{equation*}
 
 \end_deeper
 \begin_layout Enumerate
-The joint is moving if and only if it isn't in the same position in next
- time step.
+The end effector is moving if and only if it isn't in the same position
+ in next time step.
 \end_layout
 
 \begin_deeper

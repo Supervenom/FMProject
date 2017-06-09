@@ -200,15 +200,14 @@ The environment
 \end_layout
 
 \begin_layout Standard
-The environment is assumed to be a room, as shown in the table in section
- 
+The environment is assumed to be a room, as shown in the section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Environment-layout"
 
 \end_inset
 
- .
+.
  We decided to position the pallet, where the operator and the robot will
  work together, on the right side of the room.
  On the left we put the bin, where the robot will go alone to refill his
@@ -346,17 +345,8 @@ slow
 \begin_layout Standard
 When the robot is still, the robotic arm can stretch out to do the required
  actions (work with the operator when being at the pallet).
- The arm must be in a 
-\begin_inset Quotes eld
-\end_inset
-
-resting
-\begin_inset Quotes erd
-\end_inset
-
- position during the refill and must not move, while it does move when the
- operator works on a part.
- The possible positions at which the operator works on a part are fixed.
+ The movement of the arm during the refill, as well as the possible positions
+ at which the operator works on a part are fixed.
  The normal functioning of the arm, when refilling, is to pick up the parts
  and fill the local bin.
  When the robot is at the pallet, the robotic arm must pick up the part,
@@ -603,6 +593,22 @@ resting$
 
 \end_layout
 
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+loaded$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 In all above predicates, as well as those that we will introduce later,
  we indicate with 
@@ -626,6 +632,10 @@ We now introduce the predicates modeling the robot.
  We modeled both the movement of the cart – which can move at two different
  speeds or be still – and the movement of the joint.
  
+\end_layout
+
+\begin_layout Subsubsection
+Cart
 \end_layout
 
 \begin_layout Itemize
@@ -700,22 +710,6 @@ status open
 
 $
 \backslash
-jointmoving$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
 movingleft$
 \end_layout
 
@@ -740,6 +734,106 @@ movingright$
 
 \end_layout
 
+\begin_layout Subsubsection
+Arm
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+jointmoving$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+eemoving$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+picking$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+holding$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+grabbing$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+closed$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Specification of the system
 \end_layout
@@ -748,14 +842,27 @@ Specification of the system
 Specification of the model
 \end_layout
 
+\begin_layout Standard
+All formulae have to be indended universally quantified over 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ and over time.
+\end_layout
+
 \begin_layout Subsubsection
+Environment layout
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Environment-layout"
 
 \end_inset
 
-Environment layout
+
 \end_layout
 
 \begin_layout Standard
@@ -766,15 +873,15 @@ Environment layout
 <column alignment="center" valignment="top" width="0.5cm">
 <column alignment="center" valignment="bottom" width="0.5cm">
 <column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
-<column alignment="center" valignment="top" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
+<column alignment="center" valignment="middle" width="0.5cm">
 <column alignment="center" valignment="top" width="0.5cm">
 <column alignment="center" valignment="top" width="0.5cm">
 <column alignment="center" valignment="top" width="0.5cm">
@@ -1759,28 +1866,41 @@ status collapsed
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
+\color red
+¯¯¯
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
+\color red
+¯¯¯
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\color red
+¯¯¯
+\series default
+\color inherit
+
 \begin_inset ERT
 status collapsed
 
@@ -1798,10 +1918,17 @@ cellcolor{blue!25}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\color red
+¯¯¯
+\series default
+\color inherit
+
 \begin_inset ERT
 status collapsed
 
@@ -1819,10 +1946,17 @@ cellcolor{blue!25}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\color red
+¯¯¯
+\series default
+\color inherit
+
 \begin_inset ERT
 status collapsed
 
@@ -1840,10 +1974,17 @@ cellcolor{blue!25}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\color red
+¯¯¯
+\series default
+\color inherit
+
 \begin_inset ERT
 status collapsed
 
@@ -1861,10 +2002,17 @@ cellcolor{blue!25}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\color red
+¯¯¯
+\series default
+\color inherit
+
 \begin_inset ERT
 status collapsed
 
@@ -1882,10 +2030,17 @@ cellcolor{blue!25}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\color red
+¯¯¯
+\series default
+\color inherit
+
 \begin_inset ERT
 status collapsed
 
@@ -1903,11 +2058,14 @@ cellcolor{blue!25}
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\series bold
+\color red
+¯¯¯
 \end_layout
 
 \end_inset
@@ -2843,19 +3001,6 @@ Key
 In the area in lilac the cart is allowed to move fast.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-color code
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Specification of the cart
 \end_layout
@@ -3025,19 +3170,7 @@ status open
 \backslash
 begin{equation*}
 \backslash
-begin{split}2
-\backslash
-leq x
-\backslash
-leq13
-\backslash
-land 1
-\backslash
-leq y
-\backslash
-leq 3 
-\backslash
-rightarrow(
+begin{split}
 \backslash
 cartslow
 \backslash
@@ -3065,7 +3198,7 @@ cart{x-1}{y}
 \backslash
 lor
 \backslash
-cart{x}{y-1}}{1})
+cart{x}{y-1}}{1}
 \backslash
 end{split}
 \backslash
@@ -3127,16 +3260,6 @@ cart{x}{y-1}}{1}
 end{split}
 \backslash
 end{equation*}
-\end_layout
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-forse eliminare y
 \end_layout
 
 \end_inset
@@ -3320,10 +3443,6 @@ It is impossible that the local bin is empty and full at the same time.
 \end_deeper
 \begin_layout Subsubsection
 Specification of the arm
-\end_layout
-
-\begin_layout Enumerate
-The joint can be in only one position at a time.
 \end_layout
 
 \begin_layout Enumerate
@@ -3555,6 +3674,47 @@ end{equation*}
 
 \end_deeper
 \begin_layout Enumerate
+The joint is moving if and only if it isn't in the same position in next
+ time step.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+jointmoving
+\backslash
+longleftrightarrow
+\backslash
+joint{x}{y}
+\backslash
+land
+\backslash
+dist{
+\backslash
+joint{h}{k}}{1}
+\backslash
+land (x
+\backslash
+neq h
+\backslash
+lor y
+\backslash
+neq k)$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
 The joint can move close to its position.
 \end_layout
 
@@ -3626,6 +3786,47 @@ joint{x-1}{y+1}}{1}
 end{split}
 \backslash
 end{equation*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The joint is moving if and only if it isn't in the same position in next
+ time step.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+eemoving
+\backslash
+longleftrightarrow
+\backslash
+ee{x}{y}
+\backslash
+land
+\backslash
+dist{
+\backslash
+ee{h}{k}}{1}
+\backslash
+land (x
+\backslash
+neq h
+\backslash
+lor y
+\backslash
+neq k)$$
 \end_layout
 
 \end_inset

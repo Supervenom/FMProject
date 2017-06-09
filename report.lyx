@@ -151,7 +151,7 @@ Introduction
 
 \begin_layout Standard
 The aim of this report is to introduce a possible model for the Human-Robot
- Collaborative (HRC) application shown in class, both in terms of modeling
+ Collaborative (HRC) application shown in class, in terms of modeling both
  the world and the constraints needed to ensure the safety of the human
  operator.
  We will first describe the environment that the robot and the human will
@@ -321,10 +321,18 @@ slow
 
 \begin_layout Standard
 When the robot is still, the robotic arm can stretch out to do the required
- actions (either refill the local bin when at the remote bin, or work with
- the operator when being at the pallet).
- The movement of the arm during the refill, as well as the possible positions
- at which the operator works on a part are fixed.
+ actions (work with the operator when being at the pallet).
+ The arm must be in a 
+\begin_inset Quotes eld
+\end_inset
+
+resting
+\begin_inset Quotes erd
+\end_inset
+
+ position during the refill and must not move, while it does move when the
+ operator works on a part.
+ The possible positions at which the operator works on a part are fixed.
  The normal functioning of the arm, when refilling, is to pick up the parts
  and fill the local bin.
  When the robot is at the pallet, the robotic arm must pick up the part,

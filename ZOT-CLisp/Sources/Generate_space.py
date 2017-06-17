@@ -56,6 +56,10 @@ def generate_isCartMovingFast_two_cell_per_time():
 
     return list(map(lambda l: l+'))\n', formulae))
 
+def generate_uniqueCartPos():
+    formula = ""
+    for x in range(2, 14): # Range is [from, to) ;-)
+        for y in range(1, 8):
 
 if __name__ == '__main__':
     callables = list(filter(callable, locals().values()))
